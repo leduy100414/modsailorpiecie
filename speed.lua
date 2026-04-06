@@ -1,3 +1,4 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/leduy100414/modsailorpiecie/refs/heads/main/speed.lua"))()
 -- =========================
 -- ⚡ SPEED SYSTEM
 -- =========================
