@@ -32,6 +32,8 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
 ------ Tab
      local Tab1o = MakeTab({Name = "Speed Player"})
      local Tab2o = MakeTab({Name = "Reset Player"})
+     local Tab3o = MakeTab({Name = "Size Player"})
+     local Tab4o = MakeTab({Name = "Spawm Auto"})
      
 ------- BUTTON
     
@@ -90,5 +92,89 @@ AddButton(Tab2o, {
     Callback = function()
         getgenv().PlayerSpeed = 16
         UpdateSpeed()
+    end
+})
+
+-- =========================
+-- SIZE PLAYER
+-- =========================
+getgenv().PlayerSize = 1
+
+local function UpdateSize()
+    local player = game.Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+
+    -- Scale cho R15
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    if humanoid then
+        local bodyHeight = humanoid:FindFirstChild("BodyHeightScale")
+        local bodyWidth = humanoid:FindFirstChild("BodyWidthScale")
+        local bodyDepth = humanoid:FindFirstChild("BodyDepthScale")
+        local headScale = humanoid:FindFirstChild("HeadScale")
+
+        if bodyHeight then bodyHeight.Value = getgenv().PlayerSize end
+        if bodyWidth then bodyWidth.Value = getgenv().PlayerSize end
+        if bodyDepth then bodyDepth.Value = getgenv().PlayerSize end
+        if headScale then headScale.Value = getgenv().PlayerSize end
+    end
+end
+
+-- Respawn giu size
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+    task.wait(1)
+    UpdateSize()
+end)
+
+-- Anti reset size
+task.spawn(function()
+    while task.wait(1) do
+        pcall(UpdateSize)
+    end
+end)
+
+-- =========================
+-- BUTTON SIZE
+-- =========================
+
+AddButton(Tab3o, {
+    Name = "Size +1",
+    Callback = function()
+        getgenv().PlayerSize += 1
+        UpdateSize()
+        print("Size:", getgenv().PlayerSize)
+    end
+})
+
+AddButton(Tab3o, {
+    Name = "Size -1",
+    Callback = function()
+        getgenv().PlayerSize -= 1
+        
+        -- Khong nho hon 1
+        if getgenv().PlayerSize < 1 then
+            getgenv().PlayerSize = 1
+        end
+        
+        UpdateSize()
+        print("Size:", getgenv().PlayerSize)
+    end
+})
+
+AddButton(Tab2o, {
+    Name = "Reset Size",
+    Callback = function()
+        getgenv().PlayerSize = 2
+        UpdateSize()
+    end
+})
+
+AddButton(Tab4o, {
+    Name = "TP Cursed King",
+    Callback = function()
+        for _,v in pairs(workspace:GetDescendants()) do
+            if v.Name:lower():find("Cursed King") then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
+            end
+        end
     end
 })
