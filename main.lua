@@ -79,7 +79,7 @@ AddButton(Tab1o, {
     Callback = function()
         getgenv().PlayerSpeed -= 10
         if getgenv().PlayerSpeed < 16 then
-            getgenv().PlayerSpeed = 16
+            getgenv().PlayerSpeed = 1
         end
         UpdateSpeed()
     end
